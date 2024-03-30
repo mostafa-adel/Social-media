@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     tools {
-        // Use Maven, specifying the version if necessary
-        maven 'Maven' // or the name of your configured Maven tool
+        maven 'M3' // This name should match the one configured jenkins
     }
 
     stages {
