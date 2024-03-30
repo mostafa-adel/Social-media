@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy Locally') {
             steps {
                 // Assuming your JAR is named according to the standard Maven output
-                sh 'java -jar target/Social-Network-0.0.1-SNAPSHOT.jar &'
+                sh 'nohup java -jar target/Social-Network-0.0.1-SNAPSHOT.jar > app.log 2>&1 &'
             }
         }
     }
