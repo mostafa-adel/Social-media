@@ -23,7 +23,7 @@ pipeline {
         stage('Deploy Locally') {
             steps {
                 // Assuming your JAR is named according to the standard Maven output
-                sh 'java -jar target/my-application-0.0.1-SNAPSHOT.jar &'
+                sh 'java -jar target/Social-Network-0.0.1-SNAPSHOT.jar &'
             }
         }
     }
