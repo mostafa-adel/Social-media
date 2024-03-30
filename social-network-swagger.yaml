@@ -1,0 +1,213 @@
+swagger: "2.0"
+info:
+  title: Social Network
+  description: Social Network
+  version: 1.0.0
+host: localhost:8080
+basePath: /
+schemes:
+  - http
+paths:
+  /users:
+    post:
+      parameters:
+        - name: userRequest
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/userRequest'
+      responses:
+        200:
+          description: A new user has been created successfully
+          schema:
+            $ref: '#/definitions/userItem'
+        400:
+          description: The user request was invalid
+          schema:
+            $ref: '#/definitions/400'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500'
+      tags:
+        - users
+  /users/{userId}/friends/{friendId}:
+    post:
+      parameters:
+        - $ref: '#/parameters/userId'
+        - $ref: '#/parameters/friendId'
+      responses:
+        200:
+          description: Successfully added the friendship relation
+          schema:
+            $ref: '#/definitions/200'
+        400:
+          description: The request was invalid
+          schema:
+            $ref: '#/definitions/400'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500'
+      tags:
+        - network
+  /users/{userId}/followers/{followerId}:
+    post:
+      parameters:
+        - $ref: '#/parameters/userId'
+        - $ref: '#/parameters/followerId'
+      responses:
+        200:
+          description: Successfully added the follower relation
+          schema:
+            $ref: '#/definitions/200'
+        400:
+          description: The request was invalid
+          schema:
+            $ref: '#/definitions/400'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500'
+      tags:
+        - network
+      description: Adds the user with id - followerId as a follower to the user with the userId passed
+  /posts:
+    post:
+      description: create a new post
+      parameters:
+        - name: postRequest
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/postRequest'
+      responses:
+        200:
+          description: The post has been created successfully
+          schema:
+            $ref: '#/definitions/postCreateSuccess'
+        400:
+          description: The post request was invalid
+          schema:
+            $ref: '#/definitions/400'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500'
+      tags:
+        - posts
+  /walls/{userId}:
+    get:
+      parameters:
+        - $ref: '#/parameters/userId'
+      responses:
+        200:
+          description: A list of all the posts made by the user, their friends, and people they follow, sorted by timestamp descending
+          schema:
+            items:
+              $ref: '#/definitions/post'
+        400:
+          description: The timeline request was invalid
+          schema:
+            $ref: '#/definitions/400'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500'
+      tags:
+        - social
+definitions:
+  userItem:
+    properties:
+      userId:
+        description: The user's unique id, representing the user in the system
+        format: number
+        example: 4
+  userRequest:
+    properties:
+      fullName:
+        description: The user's name
+        example: "Alice Norton"
+        format: string
+  postCreateSuccess:
+    description: message on a successful post creation, containing the postId
+    properties:
+      postId:
+        format: number
+        example: 10
+  post:
+    description: a post a user makes on the social network
+    properties:
+      text:
+        format: string
+        example: "Hello world!"
+      postedOn:
+        $ref: '#/definitions/timestamp'
+      userFullName:
+        format: string
+        example: "John Doe"
+        description: the id of the user that created the post
+  postRequest:
+    properties:
+      userId:
+        format: number
+        example: 1
+        description: the id of the user making the post
+      text:
+        format: string
+        example: "Hello world!"
+      visibility:
+        format: string
+        enum:
+          - public
+          - private
+  timestamp:
+    type: string
+    format: date-time
+    example: '2022-08-22T01:02:03.456Z'
+  200:
+    properties:
+      message:
+        type: string
+        example: "Successfully completed the operation."
+  400:
+    properties:
+      message:
+        type: string
+        example: "Bad Request"
+  500:
+    properties:
+      message:
+        type: string
+        example: "Internal Server Error"
+parameters:
+  userId:
+    required: true
+    in: path
+    name: userId
+    format: int32
+    type: integer
+  friendId:
+    required: true
+    in: path
+    name: friendId
+    format: int32
+    type: integer
+  followerId:
+    required: true
+    in: path
+    name: followerId
+    format: int32
+    type: integer
+  postId:
+    required: true
+    in: path
+    name: postId
+    format: int32
+    type: integer
+  commentId:
+    required: true
+    in: path
+    name: commentId
+    format: int32
+    type: integer
