@@ -60,7 +60,7 @@ public class Post {
         }
     }
 
-    // Method to add a like  ...
+    // Method to add a like  .......
     public void addLike(User user) {
         this.likedByUsers.add(user);
     }
